@@ -31,10 +31,19 @@ func GetEnviron(envPath string) (map[string]string, error) {
 	lines := strings.Split(data, "\n")
 	for _, l := range lines {
 		kv := strings.SplitN(l, "=", 2)
+
+		if len(kv) == 0 {
+			continue
+		}
+
 		key := kv[0]
-		value := kv[1]
+		value := removeSuffix(kv[1])
 		environ[key] = value
 	}
-
 	return environ, nil
+}
+
+func removeSuffix(s string) string {
+	x := strings.TrimSuffix(s, "\n")
+	return strings.TrimSuffix(x, "\r")
 }

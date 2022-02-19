@@ -5,21 +5,10 @@ import (
 	"strings"
 )
 
-const defaultPrefix = "!!"
+const DefaultPrefix = "!!"
 
-func StartWithPrefix(msg *discordgo.Message) bool {
-	m := msg.Content
-	prefix := defaultPrefix
-
-	if m[0:len(prefix)] == prefix {
-		return true
-	}
-
-	return false
-}
-
-func ParseArgs(msg *discordgo.Message) []string {
-	s := removePrefix(msg.Content)
+func ParseArgs(msg *discordgo.Message, prefix string) []string {
+	s := removePrefix(msg.Content, prefix)
 	args := strings.Split(s, " ")
 
 	trimmedArgs := make([]string, len(args))
@@ -30,8 +19,7 @@ func ParseArgs(msg *discordgo.Message) []string {
 	return trimmedArgs
 }
 
-func removePrefix(m string) string {
-	prefix := defaultPrefix
+func removePrefix(m string, prefix string) string {
 
 	return m[len(prefix):]
 }
